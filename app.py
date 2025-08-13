@@ -7,24 +7,22 @@ from flask_migrate import Migrate
 db = SQLAlchemy()
 
 def create_app():
+    def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev')
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///data/subscriptions.db')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/database.db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    # Ensure data folder exists
+    # Ensure the database folder exists
+    import os
     os.makedirs(os.path.join(app.root_path, 'data'), exist_ok=True)
 
     db.init_app(app)
-    Migrate(app, db)
 
     with app.app_context():
         db.create_all()
 
-    @app.route('/')
-    def index():
-        return 'Subscription Manager Home Page'
-
     return app
+
 
 if __name__ == '__main__':
     app = create_app()
