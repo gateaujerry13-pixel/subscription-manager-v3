@@ -1,9 +1,9 @@
 import os
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-db = SQLAlchemy()
+# ⬇️ use the shared db/models from models.py
+from models import db, Admin, Client, Account
 
 def create_app():
     app = Flask(__name__)
